@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('practice-1/', include('message_converter.urls')),
+    path('api/currency/', include('currency.urls')),
     path('admin/', admin.site.urls),
 ]
 
