@@ -1,7 +1,7 @@
 
-from currency.views import CurrencyConverterController
+from currency.use_cases.get_exchange_rate_controller import GetExchangeRateController
 from django.urls import path
 
 urlpatterns = [
-    path('converter', CurrencyConverterController.as_view(), name='currency-converter-api'),
+    path('exchange-rate', GetExchangeRateController.as_view(), name='currency-exchange-rate'),
 ]

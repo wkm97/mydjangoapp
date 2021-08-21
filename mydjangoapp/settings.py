@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-yl*26i143n2&sae#(jfu3!l&i%da=kc^!n8003hwccc#q959zx'
 FREE_CURRCONV_API_KEY = os.environ.get('FREE_CURRCONV_API_KEY')
+if(FREE_CURRCONV_API_KEY is None):
+    print("Export FREE_CURRCONV_API_KEY !!!")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

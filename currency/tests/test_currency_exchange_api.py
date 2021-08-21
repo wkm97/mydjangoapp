@@ -1,23 +1,22 @@
-from currency.models import Currency, ExchangeRate, Money
+from currency.models.exchange_rate import ExchangeRate
+from currency.models.currency import Currency
 from django.test import TestCase
-from currency.currency_converter.currency_exchange_api import CurrencyExchangeAPI, CurrencyNotAvailableError
+from currency.currency_exchange.currency_exchange_api import CurrencyExchangeAPI, CurrencyNotAvailableError
 
 class CurrencyExchangeAPITestCase(TestCase):
-    def setUp(self) -> None:
-        CurrencyExchangeAPI().get_available_currencies()
-        return super().setUp()
 
     def test_get_available_currencies(self):
         currencies = CurrencyExchangeAPI().get_available_currencies()
-        currencies = list(currencies)
         self.assertGreater(len(currencies), 100, 'Total available currencies more than 100.')
         for currency in currencies:
             self.assertIsInstance(currency, Currency)
     
     def test_get_exchange_rate(self):
+        # Setup
+        
         ## Success
-        from_currency = Currency.objects.get(id="USD")
-        to_currency = Currency.objects.get(id="MYR")
+        from_currency = Currency(id="USD")
+        to_currency = Currency(id="MYR")
         exchange_rate = CurrencyExchangeAPI().get_exchange_rate(from_currency, to_currency)
         self.assertIsInstance(exchange_rate, ExchangeRate)
         self.assertEqual(exchange_rate.from_currency, from_currency)

@@ -1,21 +1,22 @@
+from typing import List
+from django.conf import settings
 
 import requests
-from django.conf import settings
-from currency.models import Currency, CurrencyNotAvailableError, ExchangeRate, Money
-from currency.currency_converter.currency_exchange_interface import CurrencyExchangeInterface
 
+from currency.models.currency import Currency, CurrencyNotAvailableError
+from currency.models.exchange_rate import ExchangeRate
 
 class APIClientError(Exception):
     pass
 
 # Store data to database
-class CurrencyExchangeAPI(CurrencyExchangeInterface):
+class CurrencyExchangeAPI:
     url = "https://free.currconv.com"
     params = {
         "apiKey": settings.FREE_CURRCONV_API_KEY
     }
 
-    def get_available_currencies(self):
+    def get_available_currencies(self) -> List[Currency]:
         currencies = []
         url = CurrencyExchangeAPI.url + "/api/v7/currencies"
         params = CurrencyExchangeAPI.params
@@ -27,10 +28,11 @@ class CurrencyExchangeAPI(CurrencyExchangeInterface):
                 id = result['id']
                 currency_name = result['currencyName']
                 currency_symbol = result['currencySymbol'] if 'currencySymbol' in result.keys() else None
-                Currency.objects.update_or_create(id=id, currency_name=currency_name, currency_symbol=currency_symbol)
+                currency = Currency(id=id, currency_name=currency_name, currency_symbol=currency_symbol)
+                currencies.append(currency)
         else:
-            raise APIClientError("Failed to Fetch result")
-        currencies = Currency.objects.all()
+            raise APIClientError("Failed to Fetch result", response.json())
+        
         return currencies
     
     def get_exchange_rate(self, from_currency: Currency, to_currency: Currency) -> ExchangeRate:
@@ -45,25 +47,19 @@ class CurrencyExchangeAPI(CurrencyExchangeInterface):
         if not Currency.objects.filter(id=to_id).exists():
             raise CurrencyNotAvailableError("To Currency Not Available.")
             
-        query = "{}_{},{}_{}".format(from_id, to_id, to_id, from_id) # Get both way of conversion, Example: USD_MYR,MYR_USD 
+        query = "{}_{}".format(from_id, to_id) 
         params = {
             **CurrencyExchangeAPI.params,
             "q": query,
             "compact":"ultra", # Shorter response result 
         }
 
-        # Store Both Way Conversion Rate to database
         response = requests.get(url, params)
         if(response.status_code == 200):
             results = response.json()
-            for key, value in results.items():
-                tmp_from_id, tmp_to_id = key.split("_")
-                rate = value
-                tmp_from_currency = Currency.objects.get(id=tmp_from_id)
-                tmp_to_currency = Currency.objects.get(id=tmp_to_id)
-                ExchangeRate.objects.create(from_currency=tmp_from_currency, to_currency=tmp_to_currency, rate=rate)
+            rate = results[query]
+            exchange_rate = ExchangeRate(from_currency=from_currency, to_currency=to_currency, rate=rate)
         else:
             raise APIClientError(response.json())
 
-        exchange_rate = ExchangeRate.objects.filter(from_currency=from_currency, to_currency=to_currency).latest('created_at')
         return exchange_rate
