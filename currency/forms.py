@@ -16,9 +16,8 @@ class CurrencyConverterForm(forms.Form):
         label_suffix="",
         widget = forms.NumberInput(attrs = {'value':"1"})
         )
-    from_currency_id = forms.ChoiceField(choices=CURRENCIES_CHOICES, initial=CURRENCIES_CHOICES[0])
+    from_currency_id = forms.ChoiceField(choices=CURRENCIES_CHOICES)
     to_currency_id = forms.ChoiceField(
-        choices=CURRENCIES_CHOICES, 
-        initial=CURRENCIES_CHOICES[9],
+        choices=CURRENCIES_CHOICES,
         widget = forms.Select(attrs = {'class':"to-currency"})
     )
