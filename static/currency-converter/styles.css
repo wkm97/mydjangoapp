@@ -1,10 +1,8 @@
-@import "../main/color.css";
-
 .currency-converter-wrapper {
   background-color: rgba(var(--blue-900), 1);
   padding: 2em;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  width: 80vw;
+  width: 50vw;
   color: rgba(var(--blue-700, 1));
 }
 
@@ -17,7 +15,13 @@
   justify-content: space-between;
   flex-direction: row;
   gap: 10px;
-  /* padding: 0 5em 0 5em; */
+  text-align: left;
+}
+
+.cc-form label {
+  color: rgba(var(--gray-50), 1);
+  display: block;
+  margin-left: 5px;
 }
 
 .cc-input-amount {
@@ -35,7 +39,14 @@
 .dropdown {
   background-color: rgba(var(--gray-50), 1);
   color: rgba(var(--blue-700, 1));
-  min-width: 20vw;
+  min-width: 10vw;
+  height: 4em;
+  border-radius: 10px;
+  box-shadow: 3px 3px rgba(var(--blue-500), 0.5);
+}
+
+.dropdown:hover {
+  background-color: rgba(var(--blue-100), 1);
 }
 
 .dropdown .display-primary {
@@ -48,13 +59,18 @@
 }
 
 .dropdown .downarrow {
-  border-color: rgba(var(--blue-700, 1));
+  border-color: rgba(var(--blue-700), 1);
   width: 0.4em;
   height: 0.4em;
   border-width: 0 0.3em 0.3em 0;
 }
 
-.dropdown .dropdown-list-item {
+.dropdown-list {
+  margin-left: 5px;
+  border-radius: 10px;
+}
+
+.dropdown-list-item {
   text-align: center;
   font-weight: bold;
   padding: 1em 0 1em 0;
@@ -63,23 +79,42 @@
   margin: 0;
 }
 
+.dropdown-list-item:hover {
+  background-color: rgba(var(--blue-100), 1);
+}
+
 .cc-input-amount input {
-  font-size: 1.1em;
+  font-size: 2em;
+  font-weight: bolder;
   display: inline-block;
-  height: 100%;
-  color: rgba(var(--blue-700, 1));
+  padding-left: 1em;
+  color: rgba(var(--blue-700), 1);
+  height: 2em;
+  width: 5em;
+  border-radius: 10px;
+  box-shadow: 3px 3px rgba(var(--blue-500), 0.5);
 }
 
 .cc-submit-button {
+  background-color: rgba(var(--yellow-400), 1);
+  height: 5em;
+  width: 5em;
+  margin-top: 22px;
+  border-radius: 10px;
   border-width: 0;
   width: 10%;
+  box-shadow: 3px 3px rgba(var(--blue-500), 0.5);
+}
+
+.cc-submit-button:hover {
+  background-color: rgba(var(--yellow-500), 1);
 }
 
 .submit-icon {
   width: 0.6em;
   height: 0.6em;
   border-width: 0 0.6em 0.6em 0;
-  border-color: rgba(var(--blue-700, 1));
+  border-color: rgba(var(--blue-700), 1);
   border-style: solid;
   border-radius: 0 0 0.3em 0;
   display: inline-block;
@@ -89,5 +124,19 @@
 }
 
 .cc-display {
+  color: rgba(var(--gray-300), 1);
+  font-weight: bold;
+}
+
+.cc-display .amount-to-currency {
+  font-size: 3em;
+  font-weight: bolder;
   color: rgba(var(--gray-50), 1);
+}
+
+svg {
+  margin: 2em 1em 0 1em;
+  fill: rgba(var(--gray-50), 1);
+  width: 50px;
+  height: 50px;
 }

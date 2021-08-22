@@ -17,7 +17,9 @@
   </head>
   <body>
     <div class="container">
-      <h1>Demo Application</h1>
+      <h1 class="home-button">
+        <a href="{% url 'homepage' %}">Application</a>
+      </h1>
       <br />
       {% block content %}{% endblock %}
       <br />

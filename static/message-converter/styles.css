@@ -1,4 +1,4 @@
-@import "../main/color.css";
+/* @import "../main/color.css"; */
 
 .message-converter-wrapper {
   background-color: rgba(var(--gray-600), 1);

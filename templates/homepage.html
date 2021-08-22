@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% load static %} {% block title %} Homepage
+{%endblock %} {% block content %}
+<div class="homepage-wrapper">
+  <a class="page-nav" href="{% url 'message-converter' %}">
+    Practice 1 - Message Converter
+  </a>
+  <a class="page-nav" href="{% url 'currency-converter' %}">
+    Practice 2 - Currency Converter
+  </a>
+</div>
+{% endblock %}

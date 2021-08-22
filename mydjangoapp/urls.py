@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from mydjangoapp.homepage import HomepageView
 from django.contrib import admin
 from django.urls import path, include
 
@@ -20,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', HomepageView.as_view(), name='homepage'),
     path('practice-1/', include('message_converter.urls')),
     path('api/currency/', include('currency.api_urls')),
     path('practice-2/', include('currency.view_urls')),

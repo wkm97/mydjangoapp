@@ -39,23 +39,39 @@
 
   $(document).ready(function () {
     function exchange_money(amount, exchange_info) {
+      function format_exchange_info(from_currency, to_currency, rate) {
+        rate = rate.toFixed(6);
+        const result = `1 ${from_currency["id"]} = ${rate} ${to_currency["id"]}`;
+        return result;
+      }
       const from_currency = exchange_info["from_currency"];
       const to_currency = exchange_info["to_currency"];
       const rate = exchange_info["rate"];
-      const exchanged_amount = (amount * rate).toFixed(2);
+      const exchanged_amount = (amount * rate).toFixed(6);
 
-      console.log($(".cc-display").text(exchanged_amount));
+      display = $(".cc-display");
+      $(display)
+        .find(".amount-from-currency")
+        .text(`${amount} ${from_currency["id"]} to`);
+      $(display)
+        .find(".amount-to-currency")
+        .text(`${exchanged_amount} ${to_currency["id"]}`);
+      $(display)
+        .find(".to-from-currency")
+        .text(format_exchange_info(from_currency, to_currency, rate));
+      $(display)
+        .find(".from-to-currency")
+        .text(format_exchange_info(to_currency, from_currency, 1 / rate));
     }
 
-    $("#currency-converter-form").on("submit", function (e) {
-      e.preventDefault();
-      const amount = $(this).serializeArray()[0]["value"];
-      const from_currency = $(this)
+    function currency_conversion() {
+      const amount = $(".cc-form").find(".cc-input-amount input").val();
+      const from_currency = $(".cc-form")
         .find(".from-currency")
         .find(".display-primary")
         .text()
         .trim();
-      const to_currency = $(this)
+      const to_currency = $(".cc-form")
         .find(".to-currency")
         .find(".display-primary")
         .text()
@@ -77,15 +93,25 @@
           alert(xhr.responseText);
         },
       });
+    }
+
+    $("#currency-converter-form").on("submit", function (e) {
+      e.preventDefault();
+      currency_conversion();
     });
+    currency_conversion();
   });
 </script>
 {% endblock %} {% block content %}
 <div class="currency-converter-wrapper">
   <h2 class="cc-title">Currency Converter</h2>
   <form id="currency-converter-form" class="cc-form" action="." method="GET">
-    <div class="cc-input-amount">{{ form.amount }}</div>
+    <div class="cc-input-amount">
+      <label for="amount">Amount</label>
+      {{ form.amount }}
+    </div>
     <div class="cc-from-currency">
+      <label for="from_currency">From</label>
       <div class="dropdown from-currency">
         <div class="dropdown-selected">
           <div class="display">
@@ -104,7 +130,14 @@
         </div>
       </div>
     </div>
+    <svg>
+      <use
+        href="{% static 'currency-converter/two-way-arrows.svg' %}#Capa_1"
+      ></use>
+    </svg>
+
     <div class="cc-to-currency">
+      <label for="to_currency">To</label>
       <div class="dropdown to-currency">
         <div class="dropdown-selected">
           <div class="display">
@@ -124,13 +157,15 @@
       </div>
     </div>
 
-    <!-- {% for value, text in form.to_currency_id.field.choices %}
-                <p>{{ value }}: {{ text }}</p>
-            {% endfor %} -->
     <button class="cc-submit-button" type="submit" value="Submit">
       <i class="submit-icon"></i>
     </button>
   </form>
-  <div class="cc-display"></div>
+  <div class="cc-display">
+    <div class="amount-from-currency"></div>
+    <div class="amount-to-currency"></div>
+    <div class="to-from-currency"></div>
+    <div class="from-to-currency"></div>
+  </div>
 </div>
 {% endblock %}
