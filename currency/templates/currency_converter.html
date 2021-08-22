@@ -1,0 +1,136 @@
+{% extends "base.html" %} {% load static %} {% block title %} Currency Converter
+{% endblock %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'currency-converter/styles.css' %}"
+/>
+<script>
+  $(document).mouseup(function (e) {
+    const dropdown = $(".dropdown");
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!dropdown.is(e.target) && dropdown.has(e.target).length === 0) {
+      $(this).find(".dropdown-list").removeClass("show");
+    }
+  });
+
+  $(document).ready(function () {
+    $(".dropdown").on("click", function () {
+      const dropdown_list = $(this).find(".dropdown-list");
+      if (!dropdown_list.hasClass("show")) {
+        dropdown_list.addClass("show");
+      } else {
+        dropdown_list.removeClass("show");
+      }
+    });
+
+    $(".dropdown-list-item").on("click", function (e) {
+      const item = $(this);
+      const display_selected = $(this).closest(".dropdown");
+      const primary = $(display_selected).find(".display-primary");
+      const secondary = $(display_selected).find(".display-secondary");
+
+      const value = item.text();
+      const label = item.attr("label");
+      primary.text(value);
+      secondary.text(label);
+    });
+  });
+
+  $(document).ready(function () {
+    function exchange_money(amount, exchange_info) {
+      const from_currency = exchange_info["from_currency"];
+      const to_currency = exchange_info["to_currency"];
+      const rate = exchange_info["rate"];
+      const exchanged_amount = (amount * rate).toFixed(2);
+
+      console.log($(".cc-display").text(exchanged_amount));
+    }
+
+    $("#currency-converter-form").on("submit", function (e) {
+      e.preventDefault();
+      const amount = $(this).serializeArray()[0]["value"];
+      const from_currency = $(this)
+        .find(".from-currency")
+        .find(".display-primary")
+        .text()
+        .trim();
+      const to_currency = $(this)
+        .find(".to-currency")
+        .find(".display-primary")
+        .text()
+        .trim();
+      url = "{% url 'currency-exchange-rate' %}";
+      $.ajax({
+        url: url,
+        type: "get",
+        data: {
+          from_currency: from_currency,
+          to_currency: to_currency,
+        },
+        success: function (response) {
+          const exchange_info = response;
+          exchange_money(amount, exchange_info);
+        },
+        error: function (xhr, status, error) {
+          //   const err = JSON.parse(xhr.responseText);
+          alert(xhr.responseText);
+        },
+      });
+    });
+  });
+</script>
+{% endblock %} {% block content %}
+<div class="currency-converter-wrapper">
+  <h2 class="cc-title">Currency Converter</h2>
+  <form id="currency-converter-form" class="cc-form" action="." method="GET">
+    <div class="cc-input-amount">{{ form.amount }}</div>
+    <div class="cc-from-currency">
+      <div class="dropdown from-currency">
+        <div class="dropdown-selected">
+          <div class="display">
+            <span class="display-primary"> USD </span>
+            <br />
+            <span class="display-secondary">US Dollar</span>
+          </div>
+          <span>
+            <i class="downarrow"></i>
+          </span>
+        </div>
+        <div id="dropdown-list" class="dropdown-list">
+          {% for value, text in form.from_currency_id.field.choices %}
+          <p class="dropdown-list-item" label="{{ text }}">{{ value }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="cc-to-currency">
+      <div class="dropdown to-currency">
+        <div class="dropdown-selected">
+          <div class="display">
+            <span class="display-primary"> MYR </span>
+            <br />
+            <span class="display-secondary">Malaysia Ringgit</span>
+          </div>
+          <span>
+            <i class="downarrow"></i>
+          </span>
+        </div>
+        <div id="dropdown-list" class="dropdown-list">
+          {% for value, text in form.to_currency_id.field.choices %}
+          <p class="dropdown-list-item" label="{{ text }}">{{ value }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- {% for value, text in form.to_currency_id.field.choices %}
+                <p>{{ value }}: {{ text }}</p>
+            {% endfor %} -->
+    <button class="cc-submit-button" type="submit" value="Submit">
+      <i class="submit-icon"></i>
+    </button>
+  </form>
+  <div class="cc-display"></div>
+</div>
+{% endblock %}

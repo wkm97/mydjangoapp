@@ -1,0 +1,17 @@
+<div class="dropdown {{ classnames }}">
+  <div class="dropdown-selected">
+    <div class="display">
+      <span class="display-primary"> {{ primary_display }} </span>
+      <br />
+      <span class="display-secondary">{{ secondary_display }}</span>
+    </div>
+    <span>
+      <i class="downarrow"></i>
+    </span>
+  </div>
+  <div id="dropdown-list" class="dropdown-list">
+    {% for value, text in choices %}
+    <p class="dropdown-list-item" label="{{ text }}">{{ value }}</p>
+    {% endfor %}
+  </div>
+</div>

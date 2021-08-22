@@ -1,0 +1,93 @@
+@import "../main/color.css";
+
+.currency-converter-wrapper {
+  background-color: rgba(var(--blue-900), 1);
+  padding: 2em;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  width: 80vw;
+  color: rgba(var(--blue-700, 1));
+}
+
+.currency-converter-wrapper .cc-title {
+  color: var(--text-color-dark);
+}
+
+.currency-converter-wrapper .cc-form {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+  /* padding: 0 5em 0 5em; */
+}
+
+.cc-input-amount {
+  display: inline-block;
+}
+
+.cc-from-currency {
+  display: inline-block;
+}
+
+.cc-to-currency {
+  display: inline-block;
+}
+
+.dropdown {
+  background-color: rgba(var(--gray-50), 1);
+  color: rgba(var(--blue-700, 1));
+  min-width: 20vw;
+}
+
+.dropdown .display-primary {
+  font-weight: bolder;
+  font-size: 1.5em;
+}
+
+.dropdown .display-secondary {
+  color: rgba(var(--blue-700), 0.7);
+}
+
+.dropdown .downarrow {
+  border-color: rgba(var(--blue-700, 1));
+  width: 0.4em;
+  height: 0.4em;
+  border-width: 0 0.3em 0.3em 0;
+}
+
+.dropdown .dropdown-list-item {
+  text-align: center;
+  font-weight: bold;
+  padding: 1em 0 1em 0;
+  border-top: 2px solid rgba(var(--gray-900), 0.2);
+  background-color: rgba(var(--gray-50), 1);
+  margin: 0;
+}
+
+.cc-input-amount input {
+  font-size: 1.1em;
+  display: inline-block;
+  height: 100%;
+  color: rgba(var(--blue-700, 1));
+}
+
+.cc-submit-button {
+  border-width: 0;
+  width: 10%;
+}
+
+.submit-icon {
+  width: 0.6em;
+  height: 0.6em;
+  border-width: 0 0.6em 0.6em 0;
+  border-color: rgba(var(--blue-700, 1));
+  border-style: solid;
+  border-radius: 0 0 0.3em 0;
+  display: inline-block;
+  padding: 5px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.cc-display {
+  color: rgba(var(--gray-50), 1);
+}

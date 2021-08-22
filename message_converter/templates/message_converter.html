@@ -1,13 +1,16 @@
-{% extends "base.html" %}
-
-{% block title %} Message Converter {% endblock %}
-
-{% block content %}
-    <div class="message-converter-wrapper">
-        <h2 class="mc-title">Message Converter</h2>
-        <form class="mc-form" action='.' method="GET">
-            {{ form.as_p }}
-            <input class="mc-submit-button" type="submit" value="Submit"/>
-        </form>
-    </div>
+{% extends "base.html" %} {% load static %} {% block title %} Message Converter
+{% endblock %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'message-converter/styles.css' %}"
+/>
+{% endblock %} {% block content %}
+<div class="message-converter-wrapper">
+  <h2 class="mc-title">Message Converter</h2>
+  <form class="mc-form" action="." method="GET">
+    {{ form.as_p }}
+    <input class="mc-submit-button" type="submit" value="Submit" />
+  </form>
+</div>
 {% endblock %}
