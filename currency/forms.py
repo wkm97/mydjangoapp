@@ -2,9 +2,13 @@ from currency.models.currency import Currency
 from django import forms
 from django.core import validators
 from django.core.validators import *
+from django.db.utils import ProgrammingError
 
 class CurrencyConverterForm(forms.Form):
-    CURRENCIES_CHOICES = tuple(Currency.objects.all().values_list('id', 'currency_name').order_by('id'))
+    try:
+        CURRENCIES_CHOICES = tuple(Currency.objects.all().values_list('id', 'currency_name').order_by('id'))
+    except ProgrammingError:
+        CURRENCIES_CHOICES = (('USD', 'US Dollar'), ('MYR', 'Malaysia Ringgit'))
     amount = forms.DecimalField(
         min_value=1, 
         decimal_places=2, 
