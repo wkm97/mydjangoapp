@@ -1,8 +1,7 @@
 
-from currency.use_cases.get_exchange_rate_dto import GetExchangeRateRequestDTO
-from currency.use_cases.get_exchange_rate import GetExchangeRateUseCase
-from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import render
+from currency.use_cases.get_exchange_rate.get_exchange_rate_dto import GetExchangeRateRequestDTO
+from currency.use_cases.get_exchange_rate.get_exchange_rate import GetExchangeRateUseCase
+from django.http.response import JsonResponse
 from django.views.generic.base import View
 
 from currency.models.currency import Currency

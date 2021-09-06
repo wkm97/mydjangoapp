@@ -15,6 +15,22 @@
   });
 
   $(document).ready(function () {
+    $.ajax({
+      url: "{% url 'currencies-list' %}",
+      type: "get",
+      success: function (response) {
+        response["currencies"].forEach(function (item) {
+          $(".dropdown-list").append(
+            `<p class="dropdown-list-item" label="${item.currency_name}">${item.id}</p>`
+          );
+        });
+      },
+      error: function (xhr, status, error) {
+        //   const err = JSON.parse(xhr.responseText);
+        alert(xhr.responseText);
+      },
+    });
+
     $(".dropdown").on("click", function () {
       const dropdown_list = $(this).find(".dropdown-list");
       if (!dropdown_list.hasClass("show")) {

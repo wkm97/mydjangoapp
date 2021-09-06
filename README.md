@@ -17,7 +17,23 @@
 
 ### Currency Application
 
-- REST API created to query exchange rate
+#### REST API created to query all currencies
+
+- [GET] /api/currency
+- Response
+  ```json
+  {
+    "currencies": {
+      "id": "USD",
+      "currency_name": "United States Dollar",
+      "currency_symbol": null
+    },
+    ...
+  }
+  ```
+
+#### REST API created to query exchange rate
+
 - [GET] /api/currency/exchange-rate?from_currency=USD&to_currency=MYR
 - Parameters required
   1. from_currency: Currency ID

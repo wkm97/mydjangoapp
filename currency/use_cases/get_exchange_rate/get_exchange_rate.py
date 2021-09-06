@@ -1,7 +1,7 @@
 
 from currency.currency_exchange.currency_exchange_api import CurrencyExchangeAPI
 from currency.models.exchange_rate import ExchangeRate, ExchangeRateNotFoundError
-from currency.use_cases.get_exchange_rate_dto import GetExchangeRateRequestDTO ,GetExchangeRateResponseDTO
+from currency.use_cases.get_exchange_rate.get_exchange_rate_dto import GetExchangeRateRequestDTO ,GetExchangeRateResponseDTO
 
 
 class GetExchangeRateUseCase:

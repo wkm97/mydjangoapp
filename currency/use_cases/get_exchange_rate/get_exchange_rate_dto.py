@@ -1,7 +1,5 @@
-import json
 from typing import Callable
-from django.core import serializers
-from django.http.response import HttpResponse, JsonResponse
+from django.http.response import JsonResponse
 from currency.models.exchange_rate import ExchangeRate
 from dataclasses import dataclass
 
@@ -26,9 +24,4 @@ class GetExchangeRateResponseDTO:
         }
 
         return JsonResponse(data, status=200)
-        # return {
-        #     "from_currency": serializers.serialize('json', self.exchange_rate.from_currency),
-        #     "to_currency": self.exchange_rate.to_currency,
-        #     "rate": self.exchange_rate.rate
-        # }
     
